@@ -2,12 +2,12 @@ from starlette.routing import Route
 from starlette.responses import JSONResponse
 from sqlalchemy import BLOB, Column, ForeignKey, Integer, String, create_engine, select
 from sqlalchemy.orm import declarative_base, Session
-import string, random
-
 Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
 session = Session(engine)
-
+# conn = engine.connect()
+import string
+import random
 class games(Base):
     __tablename__ ='games'
     id = Column (Integer, primary_key=True)
@@ -26,22 +26,10 @@ class games(Base):
 def id_Generator(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
    
-class GGames:
-    async def get_All(request):
-        Base.metadata.create_all(engine)
-        stmt = select(games)
-        for game in session.scalars(stmt):
-            print(game)
-    
-    async def get(request):
+def get_All():
+    Base.metadata.create_all(engine)
+    stmt = select(games)
+    for game in session.scalars(stmt):
+        print(game)
 
-        return
-    async def patch(request):
-
-        return
-    
-    routes = [
-    Route("/", endpoint=get_All),
-    Route("/{game_id:str}", endpoint=get),
-    Route("/{game_id:str}", endpoint=patch, methods=['PATCH'])
-]
+get_All()
