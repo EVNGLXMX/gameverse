@@ -23,25 +23,16 @@ class games(Base):
     def __repr__(self):
         return f"games(id={self.id!r},game_id={self.game_id!r}),game_name={self.game_name!r},about={self.about!r},poster={self.poster!r},genres={self.genres!r},release_date={self.release_date!r},developer={self.developer!r},platform={self.platform!r}"
 
-class Games:
-    async def get_All(request):
+class GameMod:
+    def getGames():
         Base.metadata.create_all(engine)
         stmt = select(games)
+        result = []
         for game in session.scalars(stmt):
-            print(game)
-    
-    async def get(request):
-
-        return
-    async def patch(request):
-
-        return
+            result.append(game)
+        print(game)
     
     def id_Generator(size=10, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
-    
-    routes = [
-    Route("/", endpoint=get_All),
-    Route("/{game_id:str}", endpoint=get),
-    Route("/{game_id:str}", endpoint=patch, methods=['PATCH'])
-]
+
+GameMod.getGames()

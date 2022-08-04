@@ -4,6 +4,8 @@ from starlette.authentication import (
 )
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
+from starlette.routing import Route
+from auth_control import Auth
 
 class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, conn):
@@ -17,11 +19,12 @@ class BasicAuthBackend(AuthenticationBackend):
         #     return 
         # # TODO verification
         return AuthCredentials(["authenticated"]), SimpleUser("sdf")
+class Authentication:
     
-middleware = [
-    Middleware( CORSMiddleware, allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]),
-    Middleware( AuthenticationMiddleware, backend = BasicAuthBackend())
-]
+    middleware = [
+            Middleware( CORSMiddleware, allow_origins=['*'],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"]),
+            Middleware( AuthenticationMiddleware, backend = BasicAuthBackend())
+    ]

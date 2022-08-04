@@ -6,10 +6,13 @@ import Toolbar from '@mui/material/Toolbar'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../themes/Theme';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: 5,
+    marginTop:1,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -47,18 +50,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = () => {
     return ( 
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ backgroundColor: '#263238' }}>
+        <ThemeProvider theme={theme}>
+            <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" sx={{ color:'#eceff1', backgroundColor: '#212121', borderRadius:1 }}>
                 <Toolbar>
                     <Typography
-                        variant="h6"
+                        variant="gameverse"
                         noWrap
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
                         GAMEVERSE
                     </Typography>
-                    <Search sx={{marginRight:5}}>
+
+                    <Search sx={{marginRight:2}}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -67,11 +72,14 @@ const Navbar = () => {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Button variant="text" sx={{color:'#eceff1'}}>Log In</Button>
-                    <Button variant="text" sx={{color:'#eceff1'}}>Sign Up</Button>
-                </Toolbar>
+                    <Button size="large" variant="text">Browse Games</Button>
+                    <Button size="large" variant="text">Log In</Button>
+                    <Button size="large" variant="text">Sign Up</Button>
+                </Toolbar> 
             </AppBar>
         </Box>
+        </ThemeProvider>
+        
      );
 }
  
