@@ -4,8 +4,6 @@ from starlette.authentication import (
 )
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
-from starlette.routing import Route
-from auth_control import Auth
 
 class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, conn):
