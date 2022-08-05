@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from api.authentication.tokenmod import AccessToken
 from api.authentication.users import Users
 import json
@@ -22,3 +21,7 @@ class Login:
                 else: 
                     access_token = AccessToken.generate(username, user_id)
                     return json.dumps({"token":access_token})
+            else:
+                return json.dumps({"error":"invalid password"})
+        else:
+            return json.dumps({"error":"invalid username"})
