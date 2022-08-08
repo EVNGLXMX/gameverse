@@ -3,7 +3,7 @@ const theme = createTheme({
     palette: {
         mode: "dark",
         primary:{
-            main: '#'
+            main: '#4fc3f7'
         }
     },
     typography:{

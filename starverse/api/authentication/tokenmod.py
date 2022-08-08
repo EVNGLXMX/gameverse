@@ -8,7 +8,7 @@ Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
 session = Session(engine)
 now = datetime.utcnow()
-
+secret = os.getenv('SECRET_KEY')
 class tokens(Base):
     __tablename__ = 'tokens'
     id = Column (Integer,primary_key=True)
@@ -25,14 +25,13 @@ class AccessToken:
     def generate(username :str, user_id :str) -> str:
         Base.metadata.create_all(engine)
         load_dotenv()
-        secret = os.getenv('SECRET_KEY')
         
         payload = {
             "username" : username,
             "iat" : now.timestamp(),
             "exp" : (now + timedelta(minutes=5)).timestamp(),
         }
-        access_token = jwt.encode(payload=payload, key=secret, algorithm='HS256')
+        access_token = jwt.encode(payload, secret, algorithms=['HS256'])
         
         with session:
             new_token = tokens(
@@ -57,13 +56,24 @@ class AccessToken:
         token = session.scalars(query).first()
         return token
     
-    def verify(user_id:str, token:str) -> bool:
+    def checkExp(user_id:str) -> bool:
         query = select(tokens.exp).where(tokens.user_id==user_id)
         result = session.scalars(query).first()
-
+        
         if float(result) < now.timestamp():
             return True
         else:
             return False
     
+    def verify(token:str) -> str:
+        expired = False
+        try:
+            jwt.decode(token, secret, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            expired = True 
+        finally:
+            decoded = jwt.decode(token, secret, algorithms=["HS256"], options={"verify_exp":False})
+            username = decoded['username']
+            return expired, username
+            
     

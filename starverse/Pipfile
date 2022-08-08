@@ -10,6 +10,7 @@ pyjwt = "*"
 sqlalchemy = "*"
 bcrypt = "*"
 python-dotenv = "*"
+marshmallow = "*"
 
 [dev-packages]
 

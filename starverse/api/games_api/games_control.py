@@ -1,17 +1,20 @@
+from starlette.authentication import requires
 from starlette.routing import Route
-from starlette.responses import PlainTextResponse
+from starlette.responses import JSONResponse
 from api.games_api.games import GameMod
 
 class Games:
+    @requires(['authenticated', 'admin'])
     async def get_all(request):
         search_results = GameMod.getGames()
-        return PlainTextResponse(search_results)
+        return JSONResponse(search_results)
     
-    async def get_id(request):
+    async def get_id(self, request):
 
         return
-    
-    async def patch(request):
+
+    @requires(['authenticated', 'admin'])
+    async def patch(self, request):
 
         return
     
