@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String, create_engine, select, delete
 from sqlalchemy.orm import declarative_base, Session
+from starlette.authentication import AuthenticationError
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import jwt, os
+from api.authentication.users import Users
 
 Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
@@ -31,15 +33,14 @@ class AccessToken:
             "iat" : now.timestamp(),
             "exp" : (now + timedelta(minutes=5)).timestamp(),
         }
-        access_token = jwt.encode(payload, secret, algorithms=['HS256'])
+        access_token = jwt.encode(payload, secret, algorithm="HS256")
         
         with session:
             new_token = tokens(
                 token = access_token,
                 user_id = user_id,
                 iat = now,
-                # exp = (now + timedelta(minutes=0)).timestamp(),
-                exp = now.timestamp(),
+                exp = (now + timedelta(minutes=5)).timestamp(),
             )
             session.add(new_token)
             session.commit()
@@ -56,24 +57,19 @@ class AccessToken:
         token = session.scalars(query).first()
         return token
     
-    def checkExp(user_id:str) -> bool:
-        query = select(tokens.exp).where(tokens.user_id==user_id)
-        result = session.scalars(query).first()
-        
-        if float(result) < now.timestamp():
-            return True
-        else:
-            return False
-    
     def verify(token:str) -> str:
         expired = False
         try:
-            jwt.decode(token, secret, algorithms=["HS256"])
+            jwt.decode(token, secret, algorithm="HS256")
         except jwt.ExpiredSignatureError:
             expired = True 
         finally:
             decoded = jwt.decode(token, secret, algorithms=["HS256"], options={"verify_exp":False})
             username = decoded['username']
-            return expired, username
+            user = Users.search(username)
+            if user:
+                return expired, username
+            else:
+                raise AuthenticationError('Invalid_token')
             
     

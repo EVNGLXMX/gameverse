@@ -9,19 +9,9 @@ class Login:
         if user_id:
             pwd_match = Users.verifyPwd(username, password) #verify_password
             if pwd_match == True:
-                access_token = AccessToken.get(user_id) #check_token
-                
-                if access_token:
-                    exp = AccessToken.checkExp(user_id) #check_token_exp
-                    if exp == True:
-                        AccessToken.revoke(user_id)
-                        access_token = AccessToken.generate(username, user_id)
-                        return json.dumps({"token":access_token})
-                    else:
-                        return json.dumps({"token":access_token})
-                else: 
-                    access_token = AccessToken.generate(username, user_id)
-                    return json.dumps({"token":access_token})
+                AccessToken.revoke(user_id)
+                access_token = AccessToken.generate(username, user_id)
+                return json.dumps({"token":access_token})
             else:
                 return json.dumps({"error":"invalid password"})
         else:

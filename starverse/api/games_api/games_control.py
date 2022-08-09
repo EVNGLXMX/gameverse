@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse
 from api.games_api.games import GameMod
 
 class Games:
-    @requires(['authenticated', 'admin'])
+    @requires(['authenticated'])
     async def get_all(request):
         search_results = GameMod.getGames()
         return JSONResponse(search_results)

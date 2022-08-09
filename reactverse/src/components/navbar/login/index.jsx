@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Dialog from '@mui/material/Dialog';
 
-const Register = () => {
+const Login = () => {
     const axios = require('axios');
     const [username, setUsername] = useState("");
     const [pwd, setPwd] = useState("");
@@ -18,10 +18,20 @@ const Register = () => {
     }
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        const body = {"username": username, "password": pwd,}
+        const body = {"username": username, "password": pwd}
         try{
-            const result = await axios.post('auth/register', body);
-            console.log(result.data)
+            const result = await axios.post('auth/login', body);
+            const response = JSON.parse(result.data)
+            if(response['token']){
+                console.log(response['token']);
+                localStorage.setItem('accesstoken',response['token'])
+                window.location.reload(true);
+                return;
+            }
+            else if(response['error']){
+                console.log(response['error']);
+                return;
+            }
         }catch(err){
             console.log(err);
         }
@@ -37,21 +47,21 @@ const Register = () => {
 
     return(
         <>
-        <Button size="large" variant="text" onClick={handleClickOpen}>Register</Button>
+        <Button size="large" variant="text" onClick={handleClickOpen}>Log In</Button>
         <Dialog open={open} onClose={handleClose}>
             <Box sx={{textAlign:"center", p:'3rem', border:2, borderColor:'primary.main'}}>
                 <Typography
                     variant="gameverse"
                     noWrap
                     component="div"
-                    sx={{ fontSize:'2.2rem',marginBottom:3,flexGrow: 1 }}
+                    sx={{ fontSize:'2.2rem', marginBottom:3 ,flexGrow: 1 }}
                 >
-                REGISTER
+                LOG IN
                 </Typography>    
                 <form onSubmit={handleSubmit}>
                     <TextField sx={{marginBottom:1}} label="Username" name="username" required onChange={handleName}/><br/>
                     <TextField sx={{marginBottom:1}} id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={handlePwd} required/><br/>
-                    <Button variant="contained" type="submit">Register</Button>
+                    <Button variant="contained" type="submit">Log In</Button>
                 </form>
             </Box>
         </Dialog>
@@ -59,4 +69,4 @@ const Register = () => {
     )
 }
  
-export default Register;
+export default Login;

@@ -14,6 +14,7 @@ class BasicAuthBackend(AuthenticationBackend):
             return
         auth = conn.headers["Authorization"]
         bearer,token= auth.split(' ')
+        print(token)
         if token == "null":
             return 
         else:
