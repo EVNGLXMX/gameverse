@@ -1,7 +1,7 @@
 import Gamecard from "../gamecard";
 
 const Home = () => {
-    return ( 
+    return (
         <Gamecard/>
      );
 }

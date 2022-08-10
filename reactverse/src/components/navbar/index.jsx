@@ -1,17 +1,19 @@
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../themes/Theme';
-import Register from './register';
-import Login from './login';
 import { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Search from './search'
+
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../themes/Theme';
+
+import Search from './search';
+import Register from './register';
+import Login from './login';
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +33,7 @@ const Navbar = () => {
                             <Button sx={{fontSize:20}} a href="/">GAMEVERSE</Button>
                         </Typography>
                         <Search/>
+                        <Button size="large">Browse Games</Button>
                         <Button size="large" onClick={handleClick} ><AccountCircle/></Button>
                         <Menu
                                 anchorEl={anchorEl}
@@ -47,8 +50,7 @@ const Navbar = () => {
                             >                                
                             <MenuItem><Register/></MenuItem>
                             <MenuItem><Login/></MenuItem>
-                            </Menu>
-                            
+                            </Menu>     
                 </Toolbar> 
             </AppBar>
         </Box>

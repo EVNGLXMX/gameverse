@@ -10,7 +10,9 @@ Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
 session = Session(engine)
 now = datetime.utcnow()
+load_dotenv()
 secret = os.getenv('SECRET_KEY')
+
 class tokens(Base):
     __tablename__ = 'tokens'
     id = Column (Integer,primary_key=True)
@@ -26,12 +28,11 @@ class AccessToken:
           
     def generate(username :str, user_id :str) -> str:
         Base.metadata.create_all(engine)
-        load_dotenv()
         
         payload = {
             "username" : username,
-            "iat" : now.timestamp(),
-            "exp" : (now + timedelta(minutes=5)).timestamp(),
+            "iat" : now,
+            "exp" : (now + timedelta(minutes=5))
         }
         access_token = jwt.encode(payload, secret, algorithm="HS256")
         
@@ -40,7 +41,7 @@ class AccessToken:
                 token = access_token,
                 user_id = user_id,
                 iat = now,
-                exp = (now + timedelta(minutes=5)).timestamp(),
+                exp = (now + timedelta(minutes=5))
             )
             session.add(new_token)
             session.commit()
@@ -48,8 +49,9 @@ class AccessToken:
     
     def revoke(user_id:str):
         query = session.query(tokens).filter(tokens.user_id==user_id).first()
-        session.delete(query)
-        session.commit()
+        if query:
+            session.delete(query)
+            session.commit()
         return
     
     def get(user_id:str)-> str:
@@ -59,17 +61,21 @@ class AccessToken:
     
     def verify(token:str) -> str:
         expired = False
+        
         try:
-            jwt.decode(token, secret, algorithm="HS256")
+            jwt.decode(token, secret, algorithms="HS256")
         except jwt.ExpiredSignatureError:
-            expired = True 
-        finally:
-            decoded = jwt.decode(token, secret, algorithms=["HS256"], options={"verify_exp":False})
-            username = decoded['username']
-            user = Users.search(username)
-            if user:
-                return expired, username
-            else:
-                raise AuthenticationError('Invalid_token')
-            
-    
+            raise AuthenticationError('Session_expired')
+        except jwt.exceptions.DecodeError:
+            raise AuthenticationError('Invalid_token')
+        
+        decoded = jwt.decode(token, secret, algorithms="HS256", options={"verify_exp":False})
+        username = decoded['username']
+        user = Users.search(username)
+        print(user)
+        
+        if not user:
+            raise AuthenticationError('Invalid_token')
+        
+        return expired, username
+        

@@ -1,4 +1,4 @@
-import Gamecard from "./components/gamecard";
+import Home from "./components/home";
 import Navbar from "./components/navbar";
 import Paper from "@mui/material/Paper";
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,7 +17,7 @@ function App() {
       <Paper sx={{padding:1, marginTop:1}}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Gamecard/>} />
+            <Route path="/" element={<Home/>} />
           </Routes>
         </BrowserRouter>
       </Paper>

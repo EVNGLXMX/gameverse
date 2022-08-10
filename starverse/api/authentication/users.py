@@ -36,18 +36,19 @@ class Users:
         result = session.scalars(query).first()
         password = password.encode()
         
-        if bcrypt.checkpw(password,result):
-            return True
-        else:
+        if not bcrypt.checkpw(password,result):
             return False
+
+        return True
 
     def search(username:str):
         Base.metadata.create_all(engine)
         
         query = select(users).where(users.username == username)
         result = session.scalars(query).first()
-        if result:
-            return result.id
-        else:
+        
+        if not result:
             return result
+
+        return result.username
         

@@ -25,7 +25,7 @@ class BasicAuthBackend(AuthenticationBackend):
                 return AuthCredentials(["authenticated"]), SimpleUser(username)
             
 def on_auth_error(request: Request, exc: Exception):
-    return JSONResponse({"error": str(exc)}, status_code=401)
+    return JSONResponse({"error": str(exc)})
 
 class Authentication:
     middleware = [

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, create_engine, select
 from sqlalchemy.orm import declarative_base, Session
 from marshmallow import Schema, fields
-import string, random, json
+import string, random, json, base64
 
 Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
@@ -41,6 +41,12 @@ class GameMod:
         game_results = schema.dump(query)
         return game_results
         # return json.dumps(game_results)
+    
+    def getGamesByID(game_id:str):
+        query = session.query(games).filter(games.game_name.contains(game_id)).order_by(games.id)
+        schema = gameSchema(many=True)
+        game_results = schema.dump(query)
+        return game_results
         
     def id_Generator(size=10, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))

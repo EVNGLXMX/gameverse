@@ -18,6 +18,7 @@ const Login = () => {
     }
     const handleSubmit = async (e)=>{
         e.preventDefault();
+        localStorage.clear();
         const body = {"username": username, "password": pwd}
         try{
             const result = await axios.post('auth/login', body);
@@ -25,7 +26,7 @@ const Login = () => {
             if(response['token']){
                 console.log(response['token']);
                 localStorage.setItem('accesstoken',response['token'])
-                window.location.reload(true);
+                window.location.reload(false);
                 return;
             }
             else if(response['error']){
