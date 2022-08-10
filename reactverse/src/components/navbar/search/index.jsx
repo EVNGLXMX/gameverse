@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { newList } from '../../../redux/gamelistSlice';
 
 const Search = () => {
-    
+    const list = useSelector((state) => state.gamelist.list);
     const axios = require('axios');
     const rdc = useRef(0)
     const [searchTerm, setSearchTerm] = useState("");
     const [gameResults, setGameResults] = useState([]);
+    const dispatch = useDispatch();
+
     const handleChange=(e)=>{
         e.preventDefault();
         setSearchTerm(e.target.value)
@@ -15,7 +19,9 @@ const Search = () => {
         try{
             const results = await axios.get('games/'+searchTerm);
             setGameResults(results.data)
-            console.log(gameResults)
+            JSON.stringify(gameResults)
+            dispatch(newList(gameResults))
+            // console.log(list)
         }catch(err){
             console.log(err);
         }

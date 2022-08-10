@@ -6,28 +6,25 @@ import CardActionArea from '@mui/material/CardActionArea'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../themes/Theme';
+const Gamecard = ({game}) => {
 
-const Gamecard = () => {
     return ( 
-        <ThemeProvider theme={theme}>
-            <Card sx={{ width: 300, color:'#fafafa', backgroundColor: '#212121', m:2 }}>
+            <Card sx={{ width: 280, height:400, backgroundColor: '#0b131a', m:2, border:2, borderColor:'primary.main', textAlign:"center"}}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
-                    height="150"
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    alt="green iguana"
+                    height="200"
+                    image="./posters/dota2.jpg"
+                    alt={game.game_name}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+                            {game.game_name}
                         </Typography>
-                        <Typography variant="body2">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        <Typography variant="body1">
+                            {game.platform}
                         </Typography>
+                        Genres: {game.genres}
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
@@ -35,7 +32,6 @@ const Gamecard = () => {
                     <Button size="small" variant="contained" sx={{backgroundColor: '#424242'}}>More Like This</Button>
                 </CardActions>   
             </Card>
-        </ThemeProvider>
     );
 }
  

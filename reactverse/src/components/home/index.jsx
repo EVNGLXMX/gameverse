@@ -1,8 +1,10 @@
-import Gamecard from "../gamecard";
+import Gamelist from "../gamelist";
 
 const Home = () => {
     return (
-        <Gamecard/>
+        <>
+            <Gamelist/>
+        </>
      );
 }
  
