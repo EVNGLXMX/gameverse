@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const gamelistSlice = createSlice({
     name:"games",
     initialState:{
-        list:""
+        list:null
     },
     reducers:{
         newList: (state, action) => {

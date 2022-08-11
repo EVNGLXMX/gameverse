@@ -28,7 +28,7 @@ const Search = () => {
     }
     useEffect(() => {
         if (rdc.current > 1)
-        quickSearch(searchTerm)
+        quickSearch(searchTerm); 
     }, [searchTerm]);
 
     useEffect(() => {

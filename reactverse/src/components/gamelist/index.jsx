@@ -23,7 +23,6 @@ const Gamelist = () => {
                         No Results Found
                     </Typography>
                 )
-        
     );
 }
  

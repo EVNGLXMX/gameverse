@@ -40,10 +40,9 @@ class GameMod:
         schema = gameSchema(many=True)
         game_results = schema.dump(query)
         return game_results
-        # return json.dumps(game_results)
     
-    def getGamesByID(game_id:str):
-        query = session.query(games).filter(games.game_name.contains(game_id)).order_by(games.game_name)
+    def getGamesByID(game_name:str):
+        query = session.query(games).filter(games.game_name.contains(game_name)).order_by(games.game_name)
         schema = gameSchema(many=True)
         game_results = schema.dump(query)
         return game_results
