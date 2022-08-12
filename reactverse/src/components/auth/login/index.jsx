@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import Zoom from '@mui/material/Zoom'
 import { openLogin, closeLogin, openReg } from "../../../redux/miscSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserName } from "../../../redux/userSlice";
+import { setUserName, setLogin} from "../../../redux/userSlice";
 
 const Login = () => {
     const axios = require('axios');
@@ -32,7 +32,12 @@ const Login = () => {
             if(response['token']){
                 console.log(response['token']);
                 localStorage.setItem('accesstoken',response['token']);
+                localStorage.setItem('username',username);
+                localStorage.setItem('userstatus','loggedin');
                 dispatch(setUserName(username));
+                dispatch(setLogin());
+                dispatch(closeLogin())
+                window.location.reload(true)
                 return;
             }
             else if(response['error']){

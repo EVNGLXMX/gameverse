@@ -27,6 +27,9 @@ const Register = () => {
         try{
             const result = await axios.post('auth/register', body);
             console.log(result.data)
+            dispatch(closeReg())
+            window.location.reload(true)
+            return
         }catch(err){
             console.log(err);
         }

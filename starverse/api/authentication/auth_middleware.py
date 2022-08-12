@@ -7,6 +7,7 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, RedirectResponse
 from api.authentication.tokenmod import AccessToken
+import json
 
 class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, conn):
@@ -25,7 +26,7 @@ class BasicAuthBackend(AuthenticationBackend):
                 return AuthCredentials(["authenticated"]), SimpleUser(username)
             
 def on_auth_error(request: Request, exc: Exception):
-    return JSONResponse({"error": str(exc)})
+    return JSONResponse(json.dumps({"error": str(exc)}))
 
 class Authentication:
     middleware = [

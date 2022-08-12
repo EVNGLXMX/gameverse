@@ -9,7 +9,7 @@ const Gamelist = () => {
             games?.length > 0
                 ? (
                 <>
-                <Typography variant="gameverse" sx={{fontSize:'1.8rem', m:10}}>
+                <Typography variant="gameverse" sx={{fontSize:'1.8rem', mt:100}}>
                     Search Results
                 </Typography>
                 <Box sx ={{justifyContent: 'center', display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
@@ -19,7 +19,7 @@ const Gamelist = () => {
                 </Box>
                 </>
                 ) : (
-                    <Typography variant="gameverse" sx={{fontSize:'1.8rem', justifyContent: 'center', display: 'flex', m:'5rem'}}>
+                    <Typography variant="gameverse" sx={{fontSize:'1.8rem', justifyContent: 'center', display: 'flex', m:'19rem'}}>
                         No Results Found
                     </Typography>
                 )

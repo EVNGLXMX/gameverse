@@ -11,10 +11,10 @@ export const userSlice = createSlice({
             state.username = action.payload
         },
         setLogin: (state) => {
-            state.isLoggedIn = true;
+            state.userisloggedin = true;
         },
         setLogout: (state) => {
-            state.isLoggedIn = false;
+            state.userisloggedin = false;
         }
     }
 });
