@@ -7,7 +7,9 @@ import Dialog from '@mui/material/Dialog';
 import Zoom from '@mui/material/Zoom';
 import { useSelector, useDispatch } from "react-redux";
 import { openReg, closeReg, openLogin } from "../../../redux/miscSlice";
-
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import CloseIcon from '@mui/icons-material/Close';
+import Stack from "@mui/material/Stack";
 const Register = () => {
     const axios = require('axios');
     const dispatch = useDispatch();
@@ -52,20 +54,23 @@ const Register = () => {
         
         <Dialog open={open} onClose={handleClose} >
         <Zoom in={open}>
-            <Box sx={{ textAlign:"center", p:'3rem', border:2, borderColor:'primary.main', backgroundColor: '#01050a' }}>
+            <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: '#01050a' }}>
+            <Stack direction="row" justifyContent="end" sx={{ml:45}}>
+                <Button size="large" onClick={handleClose} ><CloseIcon/></Button>
+            </Stack>
                 <Typography
                     variant="gameverse"
                     noWrap
                     component="div"
-                    sx={{ fontSize:'2.2rem',mb:3,flexGrow: 1, textAlign:'left'}}
+                    sx={{ fontSize:'2.2rem',mb:3,flexGrow: 1}}
                 >
                 REGISTER
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField sx={{mb:1}} label="Username" name="username" required onChange={handleName}/><br/>
                     <TextField sx={{mb:1}} id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={handlePwd} required/><br/>
-                    <Button variant="contained" type="submit">Register</Button><br/>
-                    <Button variant="text" onClick={logBtn} sx={{mt:1}}>Already registered? Log In.</Button>
+                    <Button variant="contained" type="submit">Register<HowToRegIcon/></Button><br/>
+                    <Button variant="text" onClick={logBtn} sx={{mt:1}}>Already registered? &nbsp; <u>Log In.</u></Button>
                 </form>
             </Box>
         </Zoom>

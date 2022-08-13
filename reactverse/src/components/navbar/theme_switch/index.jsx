@@ -1,9 +1,8 @@
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useState, } from 'react';
 
 const ThemeSwitch = () => {
-
     const [mode, setMode] = useState();
     const [checked, setChecked] = useState();
     const handleChange =()=>{
