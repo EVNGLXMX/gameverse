@@ -1,4 +1,4 @@
-from api.authentication.tokenmod import AccessToken
+from api.authentication.jwt.tokencontroller import AccessToken
 from api.authentication.users import Users
 import json
 

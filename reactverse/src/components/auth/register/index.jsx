@@ -50,7 +50,7 @@ const Register = () => {
       }
     return(
         <>
-        <Button size="large" variant="text" onClick={handleClickOpen}>Register</Button>
+        <Button size="large" variant="text" onClick={handleClickOpen} sx={{color:"secondary.main"}}>Register</Button>
         
         <Dialog open={open} onClose={handleClose} >
         <Zoom in={open}>

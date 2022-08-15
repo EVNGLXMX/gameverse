@@ -10,30 +10,38 @@ import {
 } from "react-router-dom";
 import { createContext, useState } from "react";
 import GamePage from "./components/gamepage";
+import VideoPlayer from "react-background-video-player";
+import { useEffect } from "react";
 
 export const ColorModeContext = createContext();
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const toggleDarkMode =()=>{
     setDarkMode(!darkMode);
   }
   const title = useParams();
+  useEffect(() => {
+    if(localStorage.getItem('isAuthenticated')){
+      setIsAuthenticated(true)}
+    else{
+      setIsAuthenticated(false)}
+  }, []);
+  
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      {/* <VideoPlayer width='100%' src={"/bgv.mp4"}autoPlay={true}muted={true}/> */}
       <CssBaseline/>
       <ColorModeContext.Provider value={toggleDarkMode}>
         <Navbar/>
       </ColorModeContext.Provider>
-      <Paper sx={{p:1, mt:1}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/games/:title" element={<GamePage/>} />
           </Routes>
         </BrowserRouter>
-        {/* <footer>created by Myo Bandar @ Frontiir 2022</footer> */}
-      </Paper>
     </ThemeProvider> 
   );
 }

@@ -1,32 +1,20 @@
-from sqlalchemy import Column, Integer, String, create_engine, select, delete
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy import select, delete
 from starlette.authentication import AuthenticationError
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import jwt, os
 from api.authentication.users import Users
+from api.dbsession import DBSession
+from api.authentication.jwt.tokenmodel import tokens
 
-Base = declarative_base()
-engine = create_engine('sqlite:///gbdb')
-session = Session(engine)
+session = DBSession.session
 load_dotenv()
 secret = os.getenv('SECRET_KEY')
-
-class tokens(Base):
-    __tablename__ = 'tokens'
-    id = Column (Integer,primary_key=True)
-    token = Column (String)
-    user_id = Column (Integer)
-    iat = Column (String)
-    exp = Column (String)
-    
-    def __repr__(self) -> str:
-        return f"tokens(id={self.id!r}, token={self.token!r}, user_id={self.user_id!r}, iat={self.iat!r} exp={self.exp!r}"
 
 class AccessToken:   
           
     def generate(username :str, user_id :str) -> str:
-        Base.metadata.create_all(engine)
+        DBSession.Base.metadata.create_all(DBSession.engine)
         now = datetime.utcnow()
         payload = {
             "username" : username,
@@ -65,7 +53,7 @@ class AccessToken:
             jwt.decode(token, secret, algorithms="HS256")
         except jwt.ExpiredSignatureError:
             print("hm")
-            raise AuthenticationError('SESSION EXPIRED')
+            raise AuthenticationError('SESSION EXPIRED, LOG IN AGAIN')
         except jwt.exceptions.DecodeError:
             raise AuthenticationError('INVALID TOKEN')
         

@@ -1,8 +1,8 @@
 from starlette.applications import Starlette
 from starlette.routing import Mount
-from api.games_api.games_control import GameRoutes
-from api.authentication.auth_middleware import Authentication
-from api.authentication.auth_control import AuthRoutes
+from api.games.gamesview import GameRoutes
+from api.authentication.middleware.authmiddleware import Authentication
+from api.authentication.authview import AuthRoutes
 
 routes = [
     Mount('/auth', routes=AuthRoutes.routes),

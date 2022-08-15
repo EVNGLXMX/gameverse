@@ -1,17 +1,18 @@
 import { useState } from "react";
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
-import Zoom from '@mui/material/Zoom'
+import Zoom from '@mui/material/Zoom';
 import { openLogin, closeLogin, openReg } from "../../../redux/miscSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserName, setLogin} from "../../../redux/userSlice";
 import LoginIcon from '@mui/icons-material/Login';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert"
+import Alert from "@mui/material/Alert";
+
 const Login = () => {
     const axios = require('axios');
     const dispatch = useDispatch();
@@ -29,20 +30,20 @@ const Login = () => {
     const handleSubmit = async (e)=>{
         e.preventDefault();
         localStorage.clear();
-        const body = {"username": username, "password": pwd}
+        const body = {"username": username, "password": pwd};
         try{
             const response = await axios.post('auth/login', body);
-            const result = JSON.parse(response.data)
+            const result = JSON.parse(response.data);
             if(result['token']){
                 setErrorMsg(null);
                 console.log(result['token']);
                 localStorage.setItem('accesstoken',result['token']);
                 localStorage.setItem('username',username);
-                localStorage.setItem('userstatus','loggedin');
+                localStorage.setItem('isAuthenticated','True');
                 dispatch(setUserName(username));
                 dispatch(setLogin());
-                dispatch(closeLogin())
-                window.location.reload(true)
+                dispatch(closeLogin());
+                window.location.reload(true);
                 return;
             }
             else if(result['error']){
@@ -70,7 +71,7 @@ const Login = () => {
 
     return(
         <>
-        <Button size="large" variant="text" onClick={handleClickOpen}>Log In</Button>
+        <Button size="large" variant="text" onClick={handleClickOpen} sx={{color:"secondary.main"}}>Log In</Button>
         <Dialog open={open} onClose={handleClose}>
         <Zoom in={open}>
         <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: 'primary.bg' }}>

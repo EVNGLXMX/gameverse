@@ -22,7 +22,7 @@ const Navbar = (props) => {
     const userstatus = useSelector((state)=>state.users.userisloggedin);
     const username = useSelector((state)=>state.users.username);
     const user = localStorage.getItem('username');
-    const loggedin = localStorage.getItem('userstatus');
+    const loggedin = localStorage.getItem('isAuthenticated');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const dispatch = useDispatch();
@@ -40,15 +40,15 @@ const Navbar = (props) => {
 
     return ( 
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed" sx={{ color:'primary.main',backgroundColor:'primary.bg', borderRadius:1, opacity:0.9}}>
+                <AppBar position="fixed" sx={{ color:'primary.main',backgroundColor:'primary.bg', borderRadius:1}}>
                     <Toolbar>
                      <NavDrawer/>
-                <Typography variant="gameverse" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+                <Typography variant="gameverse" noWrap component="div" sx={{ flexGrow: 1 }}>
                     <Button sx={{fontSize:20}} a href="/">GAMEVERSE</Button>
                 </Typography>
                 <ThemeSwitch/>
                 <Search/>
-                <Button size="large">Browse Games</Button>
+                <Button size="large" a href="/">Browse Games</Button>
                 <Button size="large" onClick={handleClick} ><AccountCircle sx={{mr:1}}/>{username}</Button>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
                         anchorOrigin={{vertical: 'top', horizontal: 'left'}}

@@ -1,10 +1,11 @@
 from starlette.authentication import requires
-from starlette.routing import Route
 from starlette.responses import JSONResponse
-from api.games_api.games import GameMod
-import json
-class Games:
+from api.games.gamescontroller import GameMod
+from starlette.routing import Route
 
+import json
+
+class GamesView:
     async def get_all(request):
         search_results = GameMod.getGames()
         return JSONResponse(json.dumps(search_results))
@@ -24,11 +25,11 @@ class Games:
     async def patch(request):
 
         return
-    
+
 class GameRoutes:    
     routes = [
-    Route("/", endpoint=Games.get_all),
-    Route("/{game_id:str}", endpoint=Games.get_game_by_id),
-    Route("/s/{game_id:str}", endpoint=Games.search_game_by_id),
-    Route("/{game_id:str}", endpoint=Games.patch, methods=['PATCH'])
+    Route("/", endpoint=GamesView.get_all),
+    Route("/{game_id:str}", endpoint=GamesView.get_game_by_id),
+    Route("/s/{game_id:str}", endpoint=GamesView.search_game_by_id),
+    Route("/{game_id:str}", endpoint=GamesView.patch, methods=['PATCH'])
     ]

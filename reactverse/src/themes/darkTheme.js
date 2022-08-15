@@ -6,10 +6,10 @@ export const darkTheme = createTheme({
         mode: "dark",
         primary:{
             main: lightBlue[300],
-            bg: '#01050a'
+            bg: 'rgba(1,5,10,0.8)'
         },
         secondary:{
-            main: '#0F4C75'
+            main: lightBlue[300],
         },
         bg:{
             main:'#01050a'

@@ -19,7 +19,8 @@ const ThemeSwitch = () => {
     }, []);
 
     return ( 
-        <Switch onChange={handleChange} checked={checked} sx={{ m: 1 }} size="large" defaultChecked />
+        <>{checked ? ('Dark Mode') : ('Light Mode')}
+        <Switch onChange={handleChange} checked={checked} sx={{ m: 1 }} size="large" defaultChecked /></>
      );
   }
    
