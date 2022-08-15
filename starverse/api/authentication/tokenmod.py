@@ -9,7 +9,6 @@ from api.authentication.users import Users
 Base = declarative_base()
 engine = create_engine('sqlite:///gbdb')
 session = Session(engine)
-now = datetime.utcnow()
 load_dotenv()
 secret = os.getenv('SECRET_KEY')
 
@@ -28,7 +27,7 @@ class AccessToken:
           
     def generate(username :str, user_id :str) -> str:
         Base.metadata.create_all(engine)
-        
+        now = datetime.utcnow()
         payload = {
             "username" : username,
             "iat" : now,
@@ -65,17 +64,17 @@ class AccessToken:
         try:
             jwt.decode(token, secret, algorithms="HS256")
         except jwt.ExpiredSignatureError:
-            raise AuthenticationError('Session_expired')
+            print("hm")
+            raise AuthenticationError('SESSION EXPIRED')
         except jwt.exceptions.DecodeError:
-            raise AuthenticationError('Invalid_token')
+            raise AuthenticationError('INVALID TOKEN')
         
         decoded = jwt.decode(token, secret, algorithms="HS256", options={"verify_exp":False})
         username = decoded['username']
         user = Users.search(username)
         print(user)
-        
         if not user:
-            raise AuthenticationError('Invalid_token')
+            raise AuthenticationError('INVALID TOKEN')
         
         return expired, username
         

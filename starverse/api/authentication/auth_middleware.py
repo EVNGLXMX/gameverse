@@ -21,7 +21,7 @@ class BasicAuthBackend(AuthenticationBackend):
         else:
             expired, username = AccessToken.verify(token)
             if expired == True:
-                raise AuthenticationError('Session_expired')
+                raise AuthenticationError('SESSION EXPIRED')
             elif expired == False:
                 return AuthCredentials(["authenticated"]), SimpleUser(username)
             

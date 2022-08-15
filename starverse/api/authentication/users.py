@@ -50,5 +50,5 @@ class Users:
         if not result:
             return result
 
-        return result.username
+        return result.id
         

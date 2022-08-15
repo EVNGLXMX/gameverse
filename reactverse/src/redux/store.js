@@ -1,12 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
-import gamelistReducer from './gamelistSlice';
+import gameReducer from './gameSlice';
 import miscReducer from './miscSlice';
 import userReducer from './userSlice';
 
 const store = configureStore({
     reducer: {
         users: userReducer,
-        gamelist: gamelistReducer,
+        games: gameReducer,
         openauthmodal: miscReducer,
     }
 });

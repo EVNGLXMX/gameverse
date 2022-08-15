@@ -28,7 +28,7 @@ const Register = () => {
         const body = {"username": username, "password": pwd,}
         try{
             const result = await axios.post('auth/register', body);
-            console.log(result.data)
+            console.log(JSON.parse(result.data))
             dispatch(closeReg())
             window.location.reload(true)
             return
@@ -54,7 +54,7 @@ const Register = () => {
         
         <Dialog open={open} onClose={handleClose} >
         <Zoom in={open}>
-            <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: '#01050a' }}>
+            <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: 'primary.bg' }}>
             <Stack direction="row" justifyContent="end" sx={{ml:45}}>
                 <Button size="large" onClick={handleClose} ><CloseIcon/></Button>
             </Stack>

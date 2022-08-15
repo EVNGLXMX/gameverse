@@ -11,13 +11,14 @@ import { setUserName, setLogin} from "../../../redux/userSlice";
 import LoginIcon from '@mui/icons-material/Login';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from "@mui/material/Stack";
-
+import Alert from "@mui/material/Alert"
 const Login = () => {
     const axios = require('axios');
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [pwd, setPwd] = useState("");
+    const [errorMsg, setErrorMsg] = useState(null)
     
     const handleName =(e)=>{
         setUsername(e.target.value)
@@ -30,11 +31,12 @@ const Login = () => {
         localStorage.clear();
         const body = {"username": username, "password": pwd}
         try{
-            const result = await axios.post('auth/login', body);
-            const response = JSON.parse(result.data)
-            if(response['token']){
-                console.log(response['token']);
-                localStorage.setItem('accesstoken',response['token']);
+            const response = await axios.post('auth/login', body);
+            const result = JSON.parse(response.data)
+            if(result['token']){
+                setErrorMsg(null);
+                console.log(result['token']);
+                localStorage.setItem('accesstoken',result['token']);
                 localStorage.setItem('username',username);
                 localStorage.setItem('userstatus','loggedin');
                 dispatch(setUserName(username));
@@ -43,8 +45,8 @@ const Login = () => {
                 window.location.reload(true)
                 return;
             }
-            else if(response['error']){
-                console.log(response['error']);
+            else if(result['error']){
+                setErrorMsg(result['error']);               
                 return;
             }
         }catch(err){
@@ -71,7 +73,7 @@ const Login = () => {
         <Button size="large" variant="text" onClick={handleClickOpen}>Log In</Button>
         <Dialog open={open} onClose={handleClose}>
         <Zoom in={open}>
-        <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: '#01050a' }}>
+        <Box sx={{ textAlign:"center", p:'1.7rem', pt:'1rem', pr:'2rem', border:2, borderColor:'primary.main', backgroundColor: 'primary.bg' }}>
             <Stack direction="row" justifyContent="end" sx={{ml:45}}>
                 <Button size="large" onClick={handleClose} ><CloseIcon/></Button>
             </Stack>
@@ -79,11 +81,14 @@ const Login = () => {
                     variant="gameverse"
                     noWrap
                     component="div"
-                    sx={{ fontSize:'2.2rem', marginBottom:3 ,flexGrow: 1 }}
+                    sx={{ fontSize:'2.2rem',flexGrow: 1 }}
                 >
                 LOG IN
                 </Typography>    
                 <form onSubmit={handleSubmit}>
+                    {errorMsg ? (
+                        <Alert severity="warning" sx={{justifyContent:'center' ,backgroundColor:"primary.bg"}}>{errorMsg}</Alert>
+                        ):(<br/>)}
                     <TextField sx={{mb:1}} label="Username" name="username" required onChange={handleName}/><br/>
                     <TextField sx={{mb:1}} id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={handlePwd} required/><br/>
                     <Button variant="contained" type="submit">Log In <LoginIcon/></Button><br/>

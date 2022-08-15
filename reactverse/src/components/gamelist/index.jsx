@@ -4,12 +4,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const Gamelist = () => {
-    const games = useSelector((state) => state.gamelist.list);
+    const games = useSelector((state) => state.games.list);
     return ( 
             games?.length > 0
                 ? (
-                <>
-                <Typography variant="gameverse" sx={{fontSize:'1.8rem', mt:100}}>
+                <Box sx={{mt:'3rem'}}>
+                <Typography variant="gameverse" sx={{fontSize:'1.8rem'}}>
                     Search Results
                 </Typography>
                 <Box sx ={{justifyContent: 'center', display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
@@ -17,7 +17,7 @@ const Gamelist = () => {
                     <Gamecard game={game} />
                     ))}
                 </Box>
-                </>
+                </Box>
                 ) : (
                     <Typography variant="gameverse" sx={{fontSize:'1.8rem', justifyContent: 'center', display: 'flex', m:'19rem'}}>
                         No Results Found

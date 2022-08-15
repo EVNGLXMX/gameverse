@@ -11,7 +11,7 @@ class games(Base):
     __tablename__ ='games'
     id = Column (Integer, primary_key=True)
     game_id = Column (String)
-    game_name = Column (String)
+    title = Column (String)
     about = Column (String)
     poster = Column (String)
     genres = Column (String)
@@ -20,13 +20,13 @@ class games(Base):
     platform = Column (String)
     
     def __repr__(self):
-        return f"games(id={self.id!r},game_id={self.game_id!r}),game_name={self.game_name!r},about={self.about!r},poster={self.poster!r},genres={self.genres!r},release_date={self.release_date!r},developer={self.developer!r},platform={self.platform!r}"
+        return f"games(id={self.id!r},game_id={self.game_id!r}),title={self.title!r},about={self.about!r},poster={self.poster!r},genres={self.genres!r},release_date={self.release_date!r},developer={self.developer!r},platform={self.platform!r}"
 
 class gameSchema(Schema):
     class Meta:
         ordered = True
     game_id = fields.Str()
-    game_name = fields.Str()
+    title = fields.Str()
     about = fields.Str()
     poster = fields.Str()
     genres = fields.Str()
@@ -41,9 +41,15 @@ class GameMod:
         game_results = schema.dump(query)
         return game_results
     
-    def getGamesByID(game_name:str):
-        query = session.query(games).filter(games.game_name.contains(game_name)).order_by(games.game_name)
+    def searchGamesByID(title:str):
+        query = session.query(games).filter(games.title.contains(title)).order_by(games.title)
         schema = gameSchema(many=True)
+        game_results = schema.dump(query)
+        return game_results
+    
+    def getGamesByID(title:str):
+        query = session.query(games).filter(games.title==title).first()
+        schema = gameSchema()
         game_results = schema.dump(query)
         return game_results
         

@@ -8,11 +8,8 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../themes/ThemeContext';
 import { useDispatch } from 'react-redux';
 import { setUserName, setLogin } from '../../redux/userSlice';
-
 
 import ThemeSwitch from './theme_switch';
 import Search from './search';
@@ -42,9 +39,8 @@ const Navbar = (props) => {
     }, []);
 
     return ( 
-        <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed" sx={{ color:'primary.main',backgroundColor:'primary.bg', borderRadius:1 }}>
+                <AppBar position="fixed" sx={{ color:'primary.main',backgroundColor:'primary.bg', borderRadius:1, opacity:0.9}}>
                     <Toolbar>
                      <NavDrawer/>
                 <Typography variant="gameverse" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
@@ -71,7 +67,6 @@ const Navbar = (props) => {
                 </Toolbar> 
             </AppBar>
         </Box>
-        </ThemeProvider>
      );
 }
  

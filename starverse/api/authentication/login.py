@@ -11,8 +11,8 @@ class Login:
             if pwd_match == True:
                 AccessToken.revoke(user_id)
                 access_token = AccessToken.generate(username, user_id)
-                return json.dumps({"token":access_token})
+                return {"token":access_token}
             else:
-                return json.dumps({"error":"invalid password"})
+                return {"error":"INVALID PASSWORD"}
         else:
-            return json.dumps({"error":"invalid username"})
+            return {"error":"INVALID USERNAME"}

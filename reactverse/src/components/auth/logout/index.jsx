@@ -13,6 +13,7 @@ const Logout = () => {
         localStorage.removeItem('accesstoken')
         localStorage.removeItem('username')
         localStorage.removeItem('userstatus')
+        localStorage.removeItem('theme')
         window.location.reload(true)
     }
     return ( 

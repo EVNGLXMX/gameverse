@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import { newList } from '../../../redux/gamelistSlice';
+import { useDispatch } from 'react-redux';
+import { newList } from '../../../redux/gameSlice';
 
 const Search = () => {
-    const list = useSelector((state) => state.gamelist.list);
     const axios = require('axios');
     const rdc = useRef(0)
     const [searchTerm, setSearchTerm] = useState("");
@@ -17,13 +16,17 @@ const Search = () => {
     }
     const quickSearch= async()=>{
         try{
-            const results = await axios.get('games/'+searchTerm);
-            setGameResults(results.data)
+            const response = await axios.get('games/s/'+searchTerm);
+            const results = JSON.parse(response.data)
+            if(results['error']){
+                window.alert(results['error'])
+                return;
+            }
+            setGameResults(results)
             JSON.stringify(gameResults)
             dispatch(newList(gameResults))
-            // console.log(list)
         }catch(err){
-            console.log(err);
+            window.alert(err);
         }
     }
     useEffect(() => {
