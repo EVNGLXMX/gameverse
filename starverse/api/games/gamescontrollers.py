@@ -1,7 +1,7 @@
 import string, random
 from api.dbsession import DBSession
-from api.games.gamesmodel import games
-from api.games.gameschema import gameSchema
+from api.games.gamemodels import games
+from api.games.gameschemas import gameSchema
 
 class GameMod:
     def getGames():

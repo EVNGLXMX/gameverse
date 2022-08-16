@@ -3,9 +3,9 @@ from starlette.authentication import AuthenticationError
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import jwt, os
-from api.authentication.users import Users
+from api.users.usercontrollers import Users
 from api.dbsession import DBSession
-from api.authentication.jwt.tokenmodel import tokens
+from api.authentication.jwt.tokenmodels import tokens
 
 session = DBSession.session
 load_dotenv()

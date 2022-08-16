@@ -1,26 +1,15 @@
-from starlette.responses import JSONResponse
-from sqlalchemy import Column, String,Integer, create_engine, select
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy import select
 from datetime import datetime
+from api.dbsession import DBSession
+from api.users.usermodels import users
 import bcrypt
 
-Base = declarative_base()
-engine = create_engine("sqlite:///gbdb")
-session = Session(engine)
-
-class users(Base):
-    __tablename__='users'
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    password = Column(String)
-    date_created = Column(String)
-
-    def __repr__(self) -> str:
-        return f"users(id={self.id!r}, username={self.username!r}, password={self.password!r}, date_created={self.date_created!r})"
+session = DBSession.session
+Base = DBSession.Base
     
 class Users:
     def addNewUser(username:str, password:str) -> None:
-        with Session(engine) as session:
+        with session:
             newUser = users(
                 username=username,
                 password=password,
@@ -30,7 +19,7 @@ class Users:
             session.commit()
     
     def verifyPwd(username:str, password:str):
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(DBSession.engine)
         
         query = select(users.password).where(users.username == username)
         result = session.scalars(query).first()
@@ -42,7 +31,7 @@ class Users:
         return True
 
     def search(username:str):
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(DBSession.engine)
         
         query = select(users).where(users.username == username)
         result = session.scalars(query).first()

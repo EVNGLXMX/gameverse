@@ -1,6 +1,4 @@
-from starlette.responses import JSONResponse
-from sqlalchemy.orm import declarative_base, Session
-from api.authentication.users import Users
+from api.users.usercontrollers import Users
 import bcrypt, json
 
 class Registration:

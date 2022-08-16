@@ -1,8 +1,8 @@
 from starlette.responses import JSONResponse
-from starlette.routing import Route
 from api.authentication.registration import Registration
 from api.authentication.login import Login
 import json
+
 class Auth:
 
     async def Register(request):
@@ -16,10 +16,4 @@ class Auth:
         username, password = data['username'], data['password']
         response = Login.login(username, password)
         return JSONResponse(json.dumps(response))
-    
-class AuthRoutes:    
-    routes=[
-            Route("/register", endpoint=Auth.Register, methods=['POST']),
-            Route("/login", endpoint=Auth.Login, methods=['POST'])
-        ]
         

@@ -3,7 +3,7 @@ from starlette.authentication import (
 )
 from starlette.requests import Request
 from starlette.responses import JSONResponse, RedirectResponse
-from api.authentication.jwt.tokencontroller import AccessToken
+from api.authentication.jwt.tokencontrollers import AccessToken
 import json
 
 class BasicAuthBackend(AuthenticationBackend):

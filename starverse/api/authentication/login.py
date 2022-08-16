@@ -1,5 +1,5 @@
-from api.authentication.jwt.tokencontroller import AccessToken
-from api.authentication.users import Users
+from api.authentication.jwt.tokencontrollers import AccessToken
+from api.users.usercontrollers import Users
 import json
 
 class Login:
