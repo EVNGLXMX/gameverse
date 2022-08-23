@@ -9,9 +9,9 @@ const Gamelist = () => {
             games?.length > 0
                 ? (
                 <Box sx={{mt:'5rem'}}>
-                <Typography variant="gameverse" sx={{fontSize:'1.8rem'}}>
+                {/* <Typography variant="gameverse" sx={{fontSize:'1.8rem', m:'5rem'}}>
                     Search Results
-                </Typography>
+                </Typography> */}
                 <Box sx ={{justifyContent: 'center', display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
                     {games.map((game)=> (
                     <Gamecard game={game} />

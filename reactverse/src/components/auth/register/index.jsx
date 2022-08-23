@@ -10,13 +10,17 @@ import { openReg, closeReg, openLogin } from "../../../redux/miscSlice";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
+
 const Register = () => {
     const axios = require('axios');
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [pwd, setPwd] = useState("");
-    
+    const [errorMsg, setErrorMsg] = useState(null)
+    const [sucMsg, setSucMsg] = useState("warning");
+
     const handleName =(e)=>{
         setUsername(e.target.value)
     }
@@ -27,14 +31,24 @@ const Register = () => {
         e.preventDefault();
         const body = {"username": username, "password": pwd,}
         try{
-            const result = await axios.post('auth/register', body);
-            console.log(JSON.parse(result.data))
-            dispatch(closeReg())
-            window.location.reload(true)
-            return
+            const response = await axios.post('auth/register', body);
+            const result = JSON.parse(response.data);
+            setErrorMsg(result[null]); 
+            if(result['error']){
+                setErrorMsg(result['error']); 
+                setSucMsg("warning");              
+                return;
+            }
+            else if(result['result']){
+                setErrorMsg(result['result']); 
+                setSucMsg("success");                
+            }
+            // dispatch(closeReg())
+            return;
         }catch(err){
             console.log(err);
         }
+        
     }
     const handleClickOpen = () => {
         dispatch(openReg())
@@ -42,6 +56,7 @@ const Register = () => {
     
     const handleClose = () => {
         dispatch(closeReg())
+        setErrorMsg(null)
       };
     const open = useSelector((state) => state.openauthmodal.openRegModal);
     const logBtn =()=>{
@@ -62,11 +77,14 @@ const Register = () => {
                     variant="gameverse"
                     noWrap
                     component="div"
-                    sx={{ fontSize:'2.2rem',mb:3,flexGrow: 1}}
+                    sx={{ fontSize:'2.2rem',flexGrow: 1}}
                 >
                 REGISTER
                 </Typography>
                 <form onSubmit={handleSubmit}>
+                {errorMsg ? (
+                        <Alert severity={sucMsg} sx={{justifyContent:'center' ,backgroundColor:"primary.bg"}}>{errorMsg}</Alert>
+                        ):(<br/>)}
                     <TextField sx={{mb:1}} label="Username" name="username" required onChange={handleName}/><br/>
                     <TextField sx={{mb:1}} id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={handlePwd} required/><br/>
                     <Button variant="contained" type="submit">Register<HowToRegIcon/></Button><br/>

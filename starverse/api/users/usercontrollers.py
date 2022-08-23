@@ -2,6 +2,7 @@ from sqlalchemy import select
 from datetime import datetime
 from api.dbsession import DBSession
 from api.users.usermodels import users
+from api.users.userschemas import userSchema
 import bcrypt
 
 session = DBSession.session
@@ -18,9 +19,7 @@ class Users:
             session.add(newUser)
             session.commit()
     
-    def verifyPwd(username:str, password:str):
-        Base.metadata.create_all(DBSession.engine)
-        
+    def verifyPwd(username:str, password:str):              
         query = select(users.password).where(users.username == username)
         result = session.scalars(query).first()
         password = password.encode()
@@ -31,13 +30,17 @@ class Users:
         return True
 
     def search(username:str):
-        Base.metadata.create_all(DBSession.engine)
-        
         query = select(users).where(users.username == username)
         result = session.scalars(query).first()
         
         if not result:
             return result
 
-        return result.id
-        
+        return result
+    
+    def getUsers():
+        query = DBSession.session.query(users).order_by(users.id)
+        schema = userSchema(many=True)
+        user_results = schema.dump(query)
+        return user_results
+

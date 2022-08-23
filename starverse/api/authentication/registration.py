@@ -6,10 +6,10 @@ class Registration:
         user = Users.search(username)
         
         if user:
-            return json.dumps({"result":"user already exists"})
+            return{"error":"USER ALREADY EXISTS"}
         
         pwd = password.encode('utf8')
         hashword = bcrypt.hashpw(pwd,bcrypt.gensalt())
         Users.addNewUser(username, hashword)
         
-        return json.dumps({"result":"success"})
+        return {"result":"REGISTER SUCCESS"}

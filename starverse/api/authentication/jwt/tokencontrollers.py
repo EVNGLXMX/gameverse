@@ -48,11 +48,10 @@ class AccessToken:
     
     def verify(token:str) -> str:
         expired = False
-        
+        auth = False
         try:
             jwt.decode(token, secret, algorithms="HS256")
         except jwt.ExpiredSignatureError:
-            print("hm")
             raise AuthenticationError('SESSION EXPIRED, LOG IN AGAIN')
         except jwt.exceptions.DecodeError:
             raise AuthenticationError('INVALID TOKEN')
@@ -63,6 +62,7 @@ class AccessToken:
         print(user)
         if not user:
             raise AuthenticationError('INVALID TOKEN')
-        
-        return expired, username
+        if user.role == "admin":
+            auth = True
+        return expired, username, auth
         

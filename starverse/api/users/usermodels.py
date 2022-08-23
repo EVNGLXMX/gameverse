@@ -1,3 +1,4 @@
+from re import S
 from sqlalchemy import Column, String,Integer
 from api.dbsession import DBSession
 
@@ -7,6 +8,7 @@ class users(DBSession.Base):
     username = Column(String, unique=True)
     password = Column(String)
     date_created = Column(String)
+    role = Column(String)
 
     def __repr__(self) -> str:
-        return f"users(id={self.id!r}, username={self.username!r}, password={self.password!r}, date_created={self.date_created!r})"
+        return f"users(id={self.id!r}, username={self.username!r}, password={self.password!r}, date_created={self.date_created!r}, role={self.role!r})"

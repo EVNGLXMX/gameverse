@@ -1,4 +1,4 @@
-import Home from "./components/home";
+import Home from "./pages/home";
 import Navbar from "./components/navbar";
 import Paper from "@mui/material/Paper";
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,9 +9,10 @@ import {
   BrowserRouter, Routes, Route, useParams,
 } from "react-router-dom";
 import { createContext, useState } from "react";
-import GamePage from "./components/gamepage";
 import VideoPlayer from "react-background-video-player";
 import { useEffect } from "react";
+import GamePage from "./pages/game";
+import AdminPage from "./pages/admin";
 
 export const ColorModeContext = createContext();
 
@@ -31,7 +32,6 @@ function App() {
   
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      {/* <VideoPlayer width='100%' src={"/bgv.mp4"}autoPlay={true}muted={true}/> */}
       <CssBaseline/>
       <ColorModeContext.Provider value={toggleDarkMode}>
         <Navbar/>
@@ -40,6 +40,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/games/:title" element={<GamePage/>} />
+            <Route path="/admin" element = {<AdminPage/>} />
           </Routes>
         </BrowserRouter>
     </ThemeProvider> 

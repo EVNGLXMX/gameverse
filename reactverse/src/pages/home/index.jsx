@@ -1,4 +1,4 @@
-import Gamelist from "../gamelist";
+import Gamelist from "../../components/gamelist";
 
 const Home = () => {
     return (

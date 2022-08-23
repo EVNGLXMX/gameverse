@@ -16,11 +16,13 @@ class BasicAuthBackend(AuthenticationBackend):
         if token == "null":
             return 
         else:
-            expired, username = AccessToken.verify(token)
+            expired, username, auth = AccessToken.verify(token)
             if expired == True:
                 raise AuthenticationError('SESSION EXPIRED, LOG IN AGAIN')
             elif expired == False:
-                return AuthCredentials(["authenticated"]), SimpleUser(username)
+                if auth == True:
+                    return AuthCredentials(['authenticated','admin']), SimpleUser(username)
+                return AuthCredentials(['authenticated']), SimpleUser(username)
             
 def on_auth_error(request: Request, exc: Exception):
     return JSONResponse(json.dumps({"error": str(exc)}))
