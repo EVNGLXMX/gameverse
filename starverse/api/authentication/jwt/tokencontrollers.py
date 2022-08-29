@@ -59,7 +59,6 @@ class AccessToken:
         decoded = jwt.decode(token, secret, algorithms="HS256", options={"verify_exp":False})
         username = decoded['username']
         user = Users.search(username)
-        print(user)
         if not user:
             raise AuthenticationError('INVALID TOKEN')
         if user.role == "admin":

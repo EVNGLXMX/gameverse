@@ -35,8 +35,8 @@ const Usersgrid = () => {
 
     const columns= [
         { field: 'id', headerName: 'No.', width: 80 },
-        { field: 'username', headerName: 'GAME ID', minWidth: 150 },
-        { field: 'date_created', headerName: 'TITLE', minWidth: 200 },
+        { field: 'username', headerName: 'USERNAME', minWidth: 150 },
+        { field: 'date_created', headerName: 'DATE CREATED', minWidth: 200 },
     ];
 
     const [pageSize, setPageSize] = useState(5);
