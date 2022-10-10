@@ -1,2 +1,3 @@
 # gamebase
-portfolio project 1
+Backend API written in Python using Starlette Framework
+Frontend UI written in React.js
